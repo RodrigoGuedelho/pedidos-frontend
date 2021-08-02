@@ -1,0 +1,163 @@
+import React, {useState, useEffect, Fragment, useRef } from "react";
+
+import auth from "../../auth";
+import { Sidebar } from 'primereact/sidebar';
+import { Button } from 'primereact/button';
+import { PanelMenu } from 'primereact/panelmenu';
+import { Toolbar } from 'primereact/toolbar';
+import { ReactComponent as Logo } from '../../assets/logo-branca.svg' ; 
+import {Link} from 'react-router-dom';
+import "./style.css";
+
+
+function Home() {
+  const menu = useRef(null);
+  const items = [
+    {
+        label:'Pedidos',
+        icon:'pi pi-fw pi-file',
+        items:[
+            {
+              label:'Novo',
+              icon:'pi pi-fw pi-plus',
+              command: function() {
+                window.location.href="login"; 
+              }
+            },
+            {
+              label:'Listar',
+              icon:'pi pi-fw pi-search',
+              command: function() {
+                window.location.href="login"; 
+              }
+            }
+                
+        ]
+    },
+
+    {
+      label:'Produtos',
+      icon:'pi pi-fw pi-file',
+      items:[
+          {
+            label:'Novo',
+            icon:'pi pi-fw pi-plus',
+            command: function() {
+              window.location.href="login"; 
+            }
+          },
+          {
+            label:'Listar',
+            icon:'pi pi-fw pi-search',
+            command: function() {
+              window.location.href="login"; 
+            }
+          }
+              
+      ]
+    },
+
+    {
+      label:'Mesas',
+      icon:'pi pi-fw pi-file',
+      items:[
+          {
+            label:'Novo',
+            icon:'pi pi-fw pi-plus',
+            command: function() {
+              window.location.href="login"; 
+            }
+          },
+          {
+            label:'Listar',
+            icon:'pi pi-fw pi-search',
+            command: function() {
+              window.location.href="login"; 
+            }
+          }
+              
+      ]
+    },
+    {
+      label:'Usuarios',
+      icon:'pi pi-fw pi-file',
+      items:[
+          {
+            label:'Novo',
+            icon:'pi pi-fw pi-plus',
+            command: function() {
+              window.location.href="login"; 
+            }
+          },
+          {
+            label:'Listar',
+            icon:'pi pi-fw pi-search',
+            command: function() {
+              window.location.href="login"; 
+            }
+          }
+              
+      ]
+    },
+    {
+      label:'Usuarios',
+      icon:'pi pi-fw pi-file',
+      items:[
+          {
+            label:'Novo',
+            icon:'pi pi-fw pi-plus',
+            command: function() {
+              window.location.href="login"; 
+            }
+          },
+          {
+            label:'Listar',
+            icon:'pi pi-fw pi-search',
+            command: function() {
+              window.location.href="login"; 
+            }
+          }
+              
+      ]
+    },
+    {
+      label:'Logout',
+      icon:'pi pi-fw pi-file',
+      separator: true,
+      command: function() {
+      
+        auth.logout();
+      }  
+    }    
+  ];
+
+  const leftContents = (
+    <React.Fragment>
+     <Button  onClick={() => setVisibleSidebar(true)}><Logo /></Button>   
+      <Link className="link-menu" to="/">Pedido Legal</Link>
+       
+        
+    </React.Fragment>
+);
+  const [visibleSidebar, setVisibleSidebar] = useState(true);
+  async function logout(e) {
+      e.preventDefault();
+      const retorno = await auth.logout();
+  }
+  
+    return (
+      <div>
+        <Sidebar visible={visibleSidebar} onHide={() => setVisibleSidebar(false)}>
+          <h3>Telas</h3>
+          <div className="card"><PanelMenu model={items} style={{ width: '100%' }}/></div>
+        </Sidebar>
+        <Toolbar  left={leftContents}/>
+        <div class="p-d-flex p-jc-center">
+         
+        </div>
+      </div>
+      
+    );
+}
+
+export default Home;
