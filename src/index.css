@@ -3,10 +3,12 @@ body {
 }
 .p-button  {
   background-color: #f94343 ;
+  border: 1px solid #eca1a1;
 }
 
 .p-button:hover  {
   background-color: #f75252 !important;
+  border: 1px solid #940808 !important;
 }
 .p-toolbar {
   background: #f94343;
