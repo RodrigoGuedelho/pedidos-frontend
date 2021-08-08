@@ -42,9 +42,8 @@ function Layout() {
           {
             label:'Novo',
             icon:'pi pi-fw pi-plus',
-            command: function() {
-              window.location.href="login"; 
-            }
+            url: "/produtos/add"
+            
           },
           {
             label:'Listar',
@@ -59,27 +58,6 @@ function Layout() {
 
     {
       label:'Mesas',
-      icon:'pi pi-fw pi-file',
-      items:[
-          {
-            label:'Novo',
-            icon:'pi pi-fw pi-plus',
-            command: function() {
-              window.location.href="login"; 
-            }
-          },
-          {
-            label:'Listar',
-            icon:'pi pi-fw pi-search',
-            command: function() {
-              window.location.href="login"; 
-            }
-          }
-              
-      ]
-    },
-    {
-      label:'Usuarios',
       icon:'pi pi-fw pi-file',
       items:[
           {

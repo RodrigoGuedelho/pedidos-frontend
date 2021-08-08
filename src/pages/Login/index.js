@@ -5,22 +5,21 @@ import {Button} from "primereact/button";
 import { Toast } from "primereact/toast";
 import auth from "../../auth";
 import "./style.css";
-import logo from  "../../assets/logo.svg"
 import { ReactComponent as Logo } from '../../assets/logo.svg' ; 
 
 function Login() {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
-    const [errorMessage, setErrorMessage] = useState("");
     const toast = useRef(null);
 
 
     const showError = () => {
       toast.current.show({severity:'error', summary: 'Error Message', detail:'Login ou senha inválidas', life: 3000});
-  }
+    }
 
     async function login(e) {
+      console.log("teste")
       e.preventDefault();
       const retorno = await auth.login(userName, password);
       if (retorno)
@@ -30,10 +29,10 @@ function Login() {
     }
    
     return (
-      <div class="p-d-flex p-jc-center margin-login" onSubmit={login}  >
+      <div class="p-d-flex p-jc-center margin-login"  >
         
-        <form className="p-fluid">
-        <Toast ref={toast} position="top-right" />
+        <form id="formLogin" className="p-fluid" onSubmit={login} >
+          <Toast ref={toast} position="top-right" />
           <div className="" >
             <div className="p-d-flex p-jc-center"><Logo /></div>
             <h1 className="p-d-flex p-jc-center">Pedido Legal</h1>
@@ -51,7 +50,7 @@ function Login() {
 
             
             <div className="p-field">
-              <Button label="Login" />
+              <Button id="btnSalvarLogin" label="Login" />
             </div>
 
         </form>

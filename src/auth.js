@@ -2,7 +2,6 @@ import api from "./services/api";
 
 class Auth {
     isAuthenticated() {
-      // Deve buscar o token no local storage e avaliar se ele ainda n inspirou
       var token = localStorage.getItem("token");
       return token !== undefined && token !== null;
     }

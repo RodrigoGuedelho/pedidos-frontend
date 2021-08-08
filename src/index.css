@@ -14,3 +14,17 @@ body {
   background: #f94343;
   padding: 0.1rem;
 }
+
+.p-margin-formularios {
+  margin : 5% 5% 5% 5%;
+}
+
+.btn-link {
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  text-decoration: none;
+  background-color: #7191a1 !important;
+  border: 1px solid #5b7481 !important;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import Home from "./pages/Home";
+import CadProduto from "./pages/CadProduto";
 import Layout from "./components/Layout";
 
 import auth from "./auth";
@@ -27,10 +28,10 @@ export default function Routes(props) {
   return (
 
     <BrowserRouter>
-      <Switch>
-        <Route path="/login" component={Login} exact/>
+      <Switch>    
         <PrivateRoute exact path="/" component={Home} />
-            
+        <PrivateRoute exact path="/produtos/add" component={CadProduto} />
+        <Route path="/login" component={Login} exact/>     
       </Switch>
     </BrowserRouter>
   )
