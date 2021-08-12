@@ -1,4 +1,4 @@
-import React, {useState, useRef } from "react";
+import React, {useState, useRef, useEffect } from "react";
 import { Panel } from 'primereact/panel';
 import { InputText } from 'primereact/inputtext';
 import {InputTextarea} from 'primereact/inputtextarea';
@@ -13,12 +13,28 @@ import produtoService from "../../services/ProdutoService"
 function CadProduto(props) {
   const [descricao, setDescricao] = useState("");
   const [descricaoDetalhada, setDescricaoDetalhada] = useState("");
+  const [idProduto, setIdProduto] = useState(0);
   const [preco, setPreco] = useState(0);
   const toast = useRef(null);
+  const {match} = props;
+  const {id} = match.params;
 
   const showMessage = (mensagem, tipo, titulo) => {
     toast.current.show({severity:tipo, summary: titulo, detail:mensagem, life: 3000});
   }
+
+  useEffect(async () => {
+    if(id !== undefined){
+      const produto = await produtoService.getProduto(id);
+      if(produto) {
+        console.log("hello")
+        setDescricao(produto.descricao);
+        setDescricaoDetalhada(produto.descricaoDetalhada);
+        setPreco(produto.preco);
+        setIdProduto(produto.id);
+      } 
+    }
+  }, []);
 
   async function salvar(e) {
     try {
@@ -28,8 +44,10 @@ function CadProduto(props) {
       const body = {
         descricao : descricao,
         descricaoDetalhada : descricaoDetalhada,
-        preco : preco
+        preco : preco,
+        id : idProduto ? idProduto : undefined
       }
+      
       const retorno = await produtoService.salvar(body);
       
       if (retorno.status >= 200 && retorno.status < 300)

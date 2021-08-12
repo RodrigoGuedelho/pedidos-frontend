@@ -38,6 +38,22 @@ class ProdutoService {
     }
   }
 
+  async getProduto(id) {
+    var retorno = ""; 
+    try {
+      var uri = "/api/produtos?status=ATIVO&id=" + id;  
+      retorno = await api.get(uri,  this.getConfig());
+      if (retorno.data !== [] && retorno.data !== undefined && retorno.data !== null)
+        return retorno.data[0];
+      else 
+        return null;
+    } catch (error) {
+      if (error.toString().includes('403'))
+        auth.logout();
+      return null;
+    }
+  }
+
   async desabilitar(id) {
     var retorno = null;
     try {

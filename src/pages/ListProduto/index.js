@@ -22,6 +22,11 @@ function ListProduto(props) {
   const [status, setStatus] = useState("ATIVO");
   const statusFiltro = ["ATIVO", "CANCELADO"];
 
+  const [items, setItems] = useState([
+    {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: ''},
+    {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()}
+  ]);
+
   const showMessage = (mensagem, tipo = "success", titulo = "Operação") => {
     toast.current.show({severity:tipo, summary: titulo, detail:mensagem, life: 3000});
   }
@@ -37,6 +42,11 @@ function ListProduto(props) {
 
   function showMenu(e,rowData) {
     e.preventDefault();
+    
+    setItems([
+      {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: getUrlEdiarProduto(rowData)},
+      {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()}
+    ])
     setProdutoExlusao(rowData);
     try {
       menu.current.toggle(e);
@@ -45,11 +55,12 @@ function ListProduto(props) {
     }
     
   }
+
+  function getUrlEdiarProduto(produto) {
+    return "/produtos/" + produto.id
+  }
   function actionBodyTemplate(rowData) {
-    let items = [
-      {label: 'Editar', icon: 'pi pi-fw pi-pencil'},
-      {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao(rowData)}
-    ];
+    
     return (
         <React.Fragment>
             <Menu id="menuAcoes" model={items} popup ref={menu} id="popup_menu" />
@@ -58,7 +69,7 @@ function ListProduto(props) {
     );
   }
 
-  const confirmDialogDesativacao = (produto) => {
+  const confirmDialogDesativacao = () => {
     confirmDialog({
         message: 'Você tem certeza que deseja desativar o Produto?',
         header: 'Confirmation',

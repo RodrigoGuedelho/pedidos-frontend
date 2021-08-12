@@ -33,6 +33,7 @@ export default function Routes(props) {
         <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/produtos" component={ListProduto} />
         <PrivateRoute exact path="/produtos/add" component={CadProduto} />
+        <PrivateRoute exact path="/produtos/:id" component={CadProduto} />
         <Route path="/login" component={Login} exact/>     
       </Switch>
     </BrowserRouter>
