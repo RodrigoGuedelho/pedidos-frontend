@@ -48,9 +48,7 @@ function Layout() {
           {
             label:'Listar',
             icon:'pi pi-fw pi-search',
-            command: function() {
-              window.location.href="login"; 
-            }
+            url: "/produtos"
           }
               
       ]

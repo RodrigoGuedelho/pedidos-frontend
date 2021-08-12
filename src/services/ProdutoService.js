@@ -18,16 +18,16 @@ class ProdutoService {
     throw new Error("Erro ao tenta salvar um produto.");
   }
 
-  async pesquisar(descricao, descricaoDetalhada) {
+  async pesquisar(descricao, descricaoDetalhada, status) {
     var retorno = ""; 
     try {
-      var uri = "/api/produtos?";
+      var uri = "/api/produtos?status=" + status;
       if (!util.isEmpty(descricao))
-        uri += "descricao=" + descricao;
-      if(!util.isEmpty(descricao) && !util.isEmpty(descricaoDetalhada))
-        uri += "&" 
+        uri += "&descricao=" + descricao;
+     
       if (!util.isEmpty(descricaoDetalhada))
-        uri += "descricaoDetalhada=" + descricaoDetalhada;
+        uri += "&descricaoDetalhada=" + descricaoDetalhada;
+      
 
       retorno = await api.get(uri,  this.getConfig());
       return retorno.data;
@@ -35,6 +35,20 @@ class ProdutoService {
       if (error.toString().includes('403'))
         auth.logout();
       return [];
+    }
+  }
+
+  async desabilitar(id) {
+    var retorno = null;
+    try {
+      retorno = await api.put("/api/produtos/" + id + "/cancelar", null, this.getConfig());
+      return retorno.data;
+    } catch (error) {
+      console.log("error: ", error)
+      return ;
+      if (error.toString().includes('403'))
+        auth.logout();
+      return null;
     }
   }
 
