@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment, useRef } from "react";
+import React from "react";
 import "./style.css";
 import { Chart } from 'primereact/chart';
 
