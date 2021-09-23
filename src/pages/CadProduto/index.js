@@ -27,7 +27,6 @@ function CadProduto(props) {
     if(id !== undefined){
       const produto = await produtoService.getProduto(id);
       if(produto) {
-        console.log("hello")
         setDescricao(produto.descricao);
         setDescricaoDetalhada(produto.descricaoDetalhada);
         setPreco(produto.preco);

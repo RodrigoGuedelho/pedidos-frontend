@@ -61,16 +61,12 @@ function Layout() {
           {
             label:'Novo',
             icon:'pi pi-fw pi-plus',
-            command: function() {
-              window.location.href="login"; 
-            }
+            url: "/mesas/add"
           },
           {
             label:'Listar',
             icon:'pi pi-fw pi-search',
-            command: function() {
-              window.location.href="login"; 
-            }
+            url: "/mesas"
           }
               
       ]
@@ -82,16 +78,12 @@ function Layout() {
           {
             label:'Novo',
             icon:'pi pi-fw pi-plus',
-            command: function() {
-              window.location.href="login"; 
-            }
+            url: "/usuarios/add"
           },
           {
             label:'Listar',
             icon:'pi pi-fw pi-search',
-            command: function() {
-              window.location.href="login"; 
-            }
+            url: "/usuarios"
           }
               
       ]
