@@ -30,6 +30,13 @@ function Layout() {
               command: function() {
                 window.location.href="login"; 
               }
+            },
+            {
+              label:'Relatórios',
+              icon:'pi pi-fw pi-file-pdf',
+              command: function() {
+                window.location.href="/pedidos/relatorio"; 
+              }
             }
                 
         ]
