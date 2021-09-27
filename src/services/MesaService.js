@@ -30,18 +30,16 @@ class MesaService {
     //throw new Error("Erro ao tenta editar uma mesa.");
   }
 
-  async pesquisar(id, numero) {
+  async pesquisar(id, numero, status) {
     var retorno = ""; 
     try {
-      var uri = "/api/produtos?";
-      if (!util.isEmpty(numero))
-        uri += "numero=" + numero;
+      var uri = "/api/mesas?status=" + status;
 
-      if (!util.isEmpty(numero) && !util.isEmpty(id))
-        uri += "&";
+      if (!util.isEmptyNumber(numero))
+        uri += "&numero=" + numero;
 
-      if (!util.isEmpty(id))
-        uri += "id=" + id;
+      if (!util.isEmptyNumber(id))
+        uri += "&id=" + id;
       
       retorno = await api.get(uri,  util.getConfigHeaderAuthorization());
       return retorno.data;
@@ -55,7 +53,7 @@ class MesaService {
   async getMesa(id) {
     var retorno = ""; 
     try {
-      var uri = "/api/mesas?status=ATIVO&id" + id;  
+      var uri = "/api/mesas?status=ATIVO&id=" + id;  
       retorno = await api.get(uri,  util.getConfigHeaderAuthorization());
       if (retorno.data !== [] && retorno.data !== undefined && retorno.data !== null)
         return retorno.data[0];

@@ -3,8 +3,10 @@ import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import Home from "./pages/Home";
 import CadProduto from "./pages/CadProduto";
 import CadMesa from "./pages/CadMesa";
+import ListMesa from "./pages/ListMesa";
 import ListProduto from "./pages/ListProduto"
 import RelatorioPedido from "./pages/RelatorioPedido";
+
 
 import Layout from "./components/Layout";
 
@@ -37,6 +39,8 @@ export default function Routes(props) {
         <PrivateRoute exact path="/produtos" component={ListProduto} />
         <PrivateRoute exact path="/produtos/add" component={CadProduto} />
         <PrivateRoute exact path="/produtos/:id" component={CadProduto} />
+        <PrivateRoute exact path="/mesas" component={ListMesa} />
+        <PrivateRoute exact path="/mesas/:id" component={CadMesa} />
         <PrivateRoute exact path="/mesas/add" component={CadMesa} />
         <PrivateRoute exact path="/pedidos/relatorio" component={RelatorioPedido} />
         
