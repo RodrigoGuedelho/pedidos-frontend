@@ -17,6 +17,19 @@ class PedidoSerice  {
       return [];
     }
   }
+
+  async salvar(body) {
+    var retorno = ""; 
+    try {
+      var uri = "/api/pedidos";
+      retorno = await api.post(uri, JSON.stringify(body), util.getConfigHeaderAuthorization());
+      return retorno;
+    } catch (error) {
+      if (error.toString().includes('403'))
+        auth.logout();
+      return [];
+    }
+  }
 }
 
 export default new PedidoSerice();

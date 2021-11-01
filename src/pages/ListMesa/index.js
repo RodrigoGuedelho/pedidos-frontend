@@ -6,7 +6,6 @@ import { Column } from 'primereact/column';
 
 import { InputNumber } from 'primereact/inputnumber';
 import {Button} from "primereact/button"
-import produtoService from "../../services/ProdutoService";
 import { Menu } from 'primereact/menu';
 import { confirmDialog } from 'primereact/confirmdialog';
 import { Dropdown } from 'primereact/dropdown';

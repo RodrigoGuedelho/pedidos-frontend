@@ -21,14 +21,14 @@ function Layout() {
               label:'Novo',
               icon:'pi pi-fw pi-plus',
               command: function() {
-                window.location.href="login"; 
+                window.location.href="/pedidos/add"; 
               }
             },
             {
               label:'Listar',
               icon:'pi pi-fw pi-search',
               command: function() {
-                window.location.href="login"; 
+                window.location.href="/pedidos";  
               }
             },
             {

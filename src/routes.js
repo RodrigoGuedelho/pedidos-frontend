@@ -6,6 +6,7 @@ import CadMesa from "./pages/CadMesa";
 import ListMesa from "./pages/ListMesa";
 import ListProduto from "./pages/ListProduto"
 import RelatorioPedido from "./pages/RelatorioPedido";
+import CadPedido from "./pages/CadPedido";
 
 
 import Layout from "./components/Layout";
@@ -43,6 +44,7 @@ export default function Routes(props) {
         <PrivateRoute exact path="/mesas/:id" component={CadMesa} />
         <PrivateRoute exact path="/mesas/add" component={CadMesa} />
         <PrivateRoute exact path="/pedidos/relatorio" component={RelatorioPedido} />
+        <PrivateRoute exact path="/pedidos/add" component={CadPedido} />
         
         <Route path="/login" component={Login} exact/>     
       </Switch>
