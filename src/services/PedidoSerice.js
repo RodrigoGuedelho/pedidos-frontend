@@ -30,6 +30,22 @@ class PedidoSerice  {
       return [];
     }
   }
+
+  async pesquisar(dataInicio, dataFim, status) {
+    var retorno = ""; 
+    try {
+      var uri = "/api/pedidos/agrupado?status=" + status +
+      "&dataInicio=" + util.dateTostring(dataInicio) 
+      + "&dataFim=" + util.dateTostring(dataFim);
+      
+      retorno = await api.get(uri,  util.getConfigHeaderAuthorization());
+      return retorno.data;
+    } catch (error) {
+      if (error.toString().includes('403'))
+        auth.logout();
+      return [];
+    }
+  }
 }
 
 export default new PedidoSerice();
