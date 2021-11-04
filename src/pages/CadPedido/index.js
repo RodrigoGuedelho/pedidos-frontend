@@ -10,9 +10,8 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { AutoComplete } from 'primereact/autocomplete';
 import produtoService from '../../services/ProdutoService';
-import pedidoSerice from "../../services/PedidoSerice";
+import pedidoService from "../../services/PedidoSerice";
 import util from "../../utils/Util";
-
 
 function CadProduto(props) {
   const [idMesa, setIdMesa] = useState();
@@ -27,6 +26,8 @@ function CadProduto(props) {
   const [valorItemPedido, setValorItemPedido] = useState();
   const [subtotalItemPedido, setSubtotalItemPedido] = useState();
   const toast = useRef(null);
+  const {match} = props;
+  const {id} = match.params;
 
   const showMessage = (mensagem, tipo, titulo) => {
     toast.current.show({severity:tipo, summary: titulo, detail:mensagem, life: 3000});
@@ -82,7 +83,7 @@ function CadProduto(props) {
     if (!validarSalvar())
       return;
     try {
-      const retorno = await pedidoSerice.salvar(getBodyPedido());
+      const retorno = await pedidoService.salvar(getBodyPedido());
       console.log("teste", retorno)
       if (retorno.status >= 200 && retorno.status < 300)
         showMessage("Operação realizada com sucesso.", "success", "Operação")
@@ -132,6 +133,17 @@ function CadProduto(props) {
     setValorItemPedido(0);
     setSubtotalItemPedido(0);
   }
+
+  useEffect(async () => {
+    if(id !== undefined){
+      const pedido = await pedidoService.getPedido(id);
+      if(pedido) {
+       setIdMesa(pedido.id);
+       setNumeroMesa(pedido.mesaId);
+       setObservacao(pedido.observacao);
+      } 
+    }
+  }, []);
 
   return (
     <div className="p-margin-formularios">

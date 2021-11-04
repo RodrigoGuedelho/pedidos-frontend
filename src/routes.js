@@ -45,7 +45,7 @@ export default function Routes(props) {
         <PrivateRoute exact path="/pedidos/relatorio" component={RelatorioPedido} />
         <PrivateRoute exact path="/pedidos" component={ListPedido} />
         <PrivateRoute exact path="/pedidos/add" component={CadPedido} />
-        
+        <PrivateRoute exact path="/pedidos/:id" component={CadPedido} />
         
         <Route path="/login" component={Login} exact/>     
       </Switch>

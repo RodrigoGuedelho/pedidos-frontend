@@ -22,9 +22,10 @@ function ListPedido(props)  {
   const menu =useState(null);
   const [items, setItems] = useState([
     {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: ''},
-    {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()}
+    {label: 'Finalizar', icon: 'pi pi-check-circle', command : ()=> confirmDialogFinalizar()},
+    {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogCancelar()}
   ]);
-  const [pedidoxclusao, setPedidoExlusao] = useState(null);
+  const [pedidoExclusao, setPedidoExlusao] = useState(null);
 
   const showMessage = (mensagem, tipo = "success", titulo = "Operação") => {
     toast.current.show({severity:tipo, summary: titulo, detail:mensagem, life: 3000});
@@ -39,7 +40,7 @@ function ListPedido(props)  {
     return "/pedidos/" + pedido.id
   }
 
-  const confirmDialogDesativacao = () => {
+  const confirmDialogCancelar = () => {
     confirmDialog({
         message: 'Você tem certeza que deseja cancelar o Pedido?',
         header: 'Confirmation',
@@ -49,15 +50,27 @@ function ListPedido(props)  {
     });
   }
 
+  const confirmDialogFinalizar = () => {
+    confirmDialog({
+        message: 'Você tem certeza que deseja Finalizar o Pedido?',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => finalizarPedido(),
+        reject: () => console.log("fechou")
+    });
+  }
+
+
   function showMenu(e,rowData) {
     e.preventDefault();
     
     setItems([
       {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: getUrlEdiarPedido(rowData)},
-      {label: 'Finalizar', icon: 'pi pi-check-circle', command : ()=> confirmDialogDesativacao()},
-      {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()}
+      {label: 'Finalizar', icon: 'pi pi-check-circle', command : ()=> confirmDialogFinalizar()},
+      {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogCancelar()}
     ])
     setPedidoExlusao(rowData);
+    console.log("pedido", rowData)
     try {
       menu.current.toggle(e);
     } catch (error) {
@@ -66,10 +79,29 @@ function ListPedido(props)  {
     
   }
 
+  async function finalizarPedido() {
+    var retorno = null;
+    try {
+      console.log(">>>>finalizarPedido", pedidoExclusao)
+      retorno = await pedidoService.finalizar(pedidoExclusao.id);
+      console.log(retorno)
+      if (retorno) {
+        showMessage("Pedido Finalizado com sucesso.");
+        removeListaPedido();
+      } else {
+        showMessage("Erro ao tenta Finalizar pedido.", "error");
+      }
+        
+    } catch (error) {
+      showMessage("Erro ao tenta Finalizar pedido.", 'error');
+    }
+    
+  }
   async function cancelarPedido() {
     var retorno = null;
     try {
-      retorno = null//await mesaService.desabilitar(mesaExclusao.id);
+      console.log(">>>>cancelarPedido", pedidoExclusao)
+      retorno = await pedidoService.cancelar(pedidoExclusao.id);
       console.log(retorno)
       if (retorno) {
         showMessage("Pedido Cancelado com sucesso.");
@@ -85,7 +117,7 @@ function ListPedido(props)  {
   }
 
   function removeListaPedido(){
-    var indexExclusao = pedidos.indexOf(pedidoxclusao);
+    var indexExclusao = pedidos.indexOf(pedidoExclusao);
     var pedidosAux = [] 
     pedidos.splice(indexExclusao, 1);
     pedidos.map((pedido) => {

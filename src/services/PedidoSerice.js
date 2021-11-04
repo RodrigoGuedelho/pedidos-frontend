@@ -46,6 +46,45 @@ class PedidoSerice  {
       return [];
     }
   }
+
+  async getPedido(id) {
+    var retorno = ""; 
+    try {
+      var uri = "/api/pedidos/" + id;   
+      retorno = await api.get(uri,  util.getConfigHeaderAuthorization());
+      return retorno.data;
+    } catch (error) {
+      if (error.toString().includes('403'))
+        auth.logout();
+      return [];
+    }
+  }
+
+  async finalizar(id) {
+    var retorno = ""; 
+    try {
+      var uri = "/api/pedidos/finalizar/" + id;  
+      retorno = await api.put(uri, null, util.getConfigHeaderAuthorization());
+      return retorno.data;
+    } catch (error) {
+      if (error.toString().includes('403'))
+        auth.logout();
+      return [];
+    }
+  }
+
+  async cancelar(id) {
+    var retorno = ""; 
+    try {
+      var uri = "/api/pedidos/cancelar/" + id;   
+      retorno = await api.put(uri, null, util.getConfigHeaderAuthorization());
+      return retorno.data;
+    } catch (error) {
+      if (error.toString().includes('403'))
+        auth.logout();
+      return [];
+    }
+  }
 }
 
 export default new PedidoSerice();
