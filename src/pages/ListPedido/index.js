@@ -11,6 +11,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 
 import pedidoService from "../../services/PedidoSerice";
+import util from '../../utils/Util';
 
 function ListPedido(props)  {
   const [pedidos, setPedidos] = useState([]);
@@ -141,6 +142,10 @@ function ListPedido(props)  {
     return new Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(rowData.valorTotal);
   }
 
+  function dataFormatadaBodyTemplate(rowData){
+    return util.formatarData(rowData.dataPedido);
+  }
+
   return (
     <div className="p-margin-formularios">
       <form id="formPedidos" className="p-fluid" >
@@ -163,7 +168,7 @@ function ListPedido(props)  {
           
           <DataTable value={pedidos} className="p-datatable-responsive-demo" paginator rows={8}>
               <Column field="id" header="Id"></Column>
-              <Column field="dataPedido"  header="Data"></Column>
+              <Column body={dataFormatadaBodyTemplate} field="dataPedido"  header="Data"></Column>
               <Column field="numeroMesa"  header="Mesa"></Column>
               <Column field="valorTotal" body={valorTotalBodyTemplate} header="Total"></Column>
               <Column body={actionBodyTemplate} header="Ações"   bodyStyle={{ textAlign: 'center' }}>

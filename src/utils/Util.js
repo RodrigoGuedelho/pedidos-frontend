@@ -11,7 +11,12 @@ class Util {
   dateTostring(data) {
     return data.toISOString().split("T")[0];
   }
-
+  formatarData(data) {
+    const dataAuxiliar = new Date(data);
+    return adicionarZero(dataAuxiliar.getDate()) + '/' + adicionarZero(dataAuxiliar.getMonth() + 1) + '/' + dataAuxiliar.getFullYear() 
+      + ' ' + adicionarZero(dataAuxiliar.getHours()) + ':' + adicionarZero(dataAuxiliar.getMinutes()) + ':' 
+      + adicionarZero(dataAuxiliar.getSeconds()) ;
+  }
   getConfigHeaderAuthorization() {
     return {
       headers: {
@@ -25,6 +30,13 @@ class Util {
       auth.logout();
     }
   }
+}
+
+function adicionarZero(numero){
+  if (numero <= 9) 
+      return "0" + numero;
+  else
+      return numero; 
 }
 
 export default new Util();
