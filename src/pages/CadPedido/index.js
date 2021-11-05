@@ -11,11 +11,12 @@ import { Column } from 'primereact/column';
 import { AutoComplete } from 'primereact/autocomplete';
 import produtoService from '../../services/ProdutoService';
 import pedidoService from "../../services/PedidoSerice";
+import mesaService from "../../services/MesaService";
 import util from "../../utils/Util";
 
 function CadProduto(props) {
-  const [idMesa, setIdMesa] = useState();
-  const [numeroMesa, setNumeroMesa] = useState();
+  const [mesasAbertas, setMesasAbertas] = useState();
+  const [mesa, setMesa] = useState();
   const [observacao, setObservacao] = useState('');
   const [itemPedidos, setItemPedidos] =  useState([]);
   const [idProdutoItemPedido, setIdProdutoItemPedido] = useState();
@@ -78,6 +79,18 @@ function CadProduto(props) {
     
   }
 
+  const pesquisarMesasAbertas = async (event) => {
+    if(event.query.toLowerCase() === "")  {
+      const response = await mesaService.pesquisarMesasAbertas(0);
+      console.log("mesas", response)
+      setMesasAbertas(response);
+    } else  {
+      const response = await produtoService.pesquisar(event.query.toLowerCase());
+      setMesasAbertas(response);
+    }
+    
+  }
+
   async function salvar(e) {
     e.preventDefault();
     if (!validarSalvar())
@@ -96,14 +109,14 @@ function CadProduto(props) {
 
   function getBodyPedido() {
     return {
-      mesaId : numeroMesa,
+      mesaId : mesa.id,
       observacao: observacao,
       itensPedido : itemPedidos
     }
   }
 
   function validarSalvar() {
-    if (util.isEmptyNumber(numeroMesa) || numeroMesa <= 0) {
+    if (util.isEmptyNumber(mesa.id)) {
       showMessage("Informe o número da mesa.", "error", "Operação");
       return false; 
     } else if (itemPedidos.length == 0) {
@@ -138,8 +151,6 @@ function CadProduto(props) {
     if(id !== undefined){
       const pedido = await pedidoService.getPedido(id);
       if(pedido) {
-       setIdMesa(pedido.id);
-       setNumeroMesa(pedido.mesaId);
        setObservacao(pedido.observacao);
       } 
     }
@@ -153,7 +164,8 @@ function CadProduto(props) {
           <div className="p-fluid p-formgrid p-grid">
               <div className="p-field p-col-12 p-md-2">
                   <label htmlFor="labelNumeroMesa">Número Mesa:</label>
-                  <InputText id="edtNumeroMesa" type="text" value={numeroMesa} onChange={(e) => setNumeroMesa(e.target.value)} />
+                  <AutoComplete id="autocompleteMesa" value={mesa} suggestions={mesasAbertas} completeMethod={pesquisarMesasAbertas} 
+                        field="numero" dropdown forceSelection onChange={(e) => setMesa(e.value)} />
               </div>
               <div className="p-field p-col-12">
                   <label htmlFor="labelObservacao">Observação</label>

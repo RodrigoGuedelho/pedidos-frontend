@@ -78,7 +78,7 @@ class PedidoSerice  {
     try {
       var uri = "/api/pedidos/cancelar/" + id;   
       retorno = await api.put(uri, null, util.getConfigHeaderAuthorization());
-      return retorno.data;
+      return retorno.data
     } catch (error) {
       if (error.toString().includes('403'))
         auth.logout();

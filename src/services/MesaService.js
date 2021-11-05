@@ -78,6 +78,26 @@ class MesaService {
       return null;
     }
   }
+
+  async pesquisarMesasAbertas(numero) {
+    var retorno = null;
+    try {
+      var uri = "/api/mesas/abertas";
+      if (!util.isEmptyNumber(numero) && numero > 0)
+        uri += "?numero=" + numero;
+      retorno = await api.get(uri, util.getConfigHeaderAuthorization());
+    
+      retorno.data.map(mesa => {
+        mesa.numero = mesa.numero + "";
+      })
+      return retorno.data;
+    } catch (error) {
+      console.log("error: ", error)
+      if (error.toString().includes('403'))
+        auth.logout();
+      return null;
+    }
+  }
 }
 
 export default new MesaService();
