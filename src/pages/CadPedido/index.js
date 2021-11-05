@@ -93,10 +93,17 @@ function CadProduto(props) {
 
   async function salvar(e) {
     e.preventDefault();
+    var retorno = null;
     if (!validarSalvar())
       return;
     try {
-      const retorno = await pedidoService.salvar(getBodyPedido());
+      var retorno = null;
+      if (!util.isEmptyNumber(id) && id >0) 
+        retorno = await pedidoService.editar(getBodyPedido());
+      else 
+        retorno = await pedidoService.salvar(getBodyPedido());
+      
+        
       console.log("teste", retorno)
       if (retorno.status >= 200 && retorno.status < 300)
         showMessage("Operação realizada com sucesso.", "success", "Operação")
@@ -109,6 +116,7 @@ function CadProduto(props) {
 
   function getBodyPedido() {
     return {
+      id : !util.isEmptyNumber(id) && id >0  ? id : null,
       mesaId : mesa.id,
       observacao: observacao,
       itensPedido : itemPedidos
@@ -146,13 +154,28 @@ function CadProduto(props) {
     setValorItemPedido(0);
     setSubtotalItemPedido(0);
   }
-
+  async function carregaDadosEditar(id) {
+    const pedido = await pedidoService.getPedido(id);
+      if(pedido) {
+        setObservacao(pedido.observacao);
+        setMesa({id: pedido.mesaId, numero: pedido.mesaNumero})
+        var itensPedidosAuxiliar = []
+        pedido.itensPedido.map(itemPedido=> {
+          itensPedidosAuxiliar.push({
+            id: itemPedido.id,
+            produtoId : itemPedido.produtoId,
+            descricao : itemPedido.produtoDescricao,
+            quantidade : itemPedido.quantidade,
+            preco : itemPedido.preco,
+            subtotalItemPedido : itemPedido.preco * itemPedido.quantidade
+          })
+        });
+        setItemPedidos(itensPedidosAuxiliar);
+      }
+  } 
   useEffect(async () => {
     if(id !== undefined){
-      const pedido = await pedidoService.getPedido(id);
-      if(pedido) {
-       setObservacao(pedido.observacao);
-      } 
+      carregaDadosEditar(id);
     }
   }, []);
 

@@ -31,6 +31,19 @@ class PedidoSerice  {
     }
   }
 
+  async editar(body) {
+    var retorno = ""; 
+    try {
+      var uri = "/api/pedidos/" + body.id ;
+      retorno = await api.put(uri, JSON.stringify(body), util.getConfigHeaderAuthorization());
+      return retorno;
+    } catch (error) {
+      if (error.toString().includes('403'))
+        auth.logout();
+      return [];
+    }
+  }
+
   async pesquisar(dataInicio, dataFim, status) {
     var retorno = ""; 
     try {
