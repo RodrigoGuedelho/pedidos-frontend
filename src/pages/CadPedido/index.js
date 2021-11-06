@@ -8,7 +8,9 @@ import {Link} from 'react-router-dom';
 import { Toast } from "primereact/toast";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Menu } from 'primereact/menu';
 import { AutoComplete } from 'primereact/autocomplete';
+import { confirmDialog } from 'primereact/confirmdialog';
 import produtoService from '../../services/ProdutoService';
 import pedidoService from "../../services/PedidoSerice";
 import mesaService from "../../services/MesaService";
@@ -29,6 +31,11 @@ function CadProduto(props) {
   const toast = useRef(null);
   const {match} = props;
   const {id} = match.params;
+  const menu =useState(null);
+  const [items, setItems] = useState([
+    {label: 'Excluir', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogRemoverItemPedido()}
+  ]);
+  const [itemPedidoExclusao, setItemPedidoExclusao] = useState();
 
   const showMessage = (mensagem, tipo, titulo) => {
     toast.current.show({severity:tipo, summary: titulo, detail:mensagem, life: 3000});
@@ -54,6 +61,43 @@ function CadProduto(props) {
 
     setItemPedidos(itemPedidosAux);
     limparCamposItemPedido();
+  }
+
+  const confirmDialogRemoverItemPedido = () => {
+    confirmDialog({
+        message: 'Você tem certeza que deseja remover um item do Pedido?',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => removerItemPedido(),
+        reject: () => console.log("fechou")
+    });
+  }
+
+  function removerItemPedido(){
+    var indexExclusao = itemPedidos.indexOf(itemPedidoExclusao);
+    var itensPedidosAux = [] 
+    itemPedidos.splice(indexExclusao, 1);
+    itemPedidos.map((item) => {
+      itensPedidosAux.push(item);
+    })
+    
+    setItemPedidos(itensPedidosAux);
+  }
+
+  function showMenu(e,rowData) {
+    e.preventDefault();
+    
+    setItems([   
+      {label: 'Excluir', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogRemoverItemPedido()}
+    ])
+    setItemPedidoExclusao(rowData);
+    console.log("pedido", rowData)
+    try {
+      menu.current.toggle(e);
+    } catch (error) {
+      
+    }
+    
   }
 
   function validaAddItemPedido() {
@@ -173,6 +217,15 @@ function CadProduto(props) {
         setItemPedidos(itensPedidosAuxiliar);
       }
   } 
+  function actionBodyTemplate(rowData) {
+    return (
+        <React.Fragment>
+            <Menu id="menuAcoes" model={items} popup ref={menu} id="popup_menu" />
+            <Button icon="pi pi-ellipsis-v" onClick={(e)=> showMenu(e, rowData)} aria-controls="popup_menu" aria-haspopup  className="p-button-rounded" />
+        </React.Fragment>
+    );
+  }
+
   useEffect(async () => {
     if(id !== undefined){
       carregaDadosEditar(id);
@@ -231,7 +284,7 @@ function CadProduto(props) {
                     <Column field="quantidade"  header="Qtd"></Column>
                     
                     <Column field="subtotalItemPedido"  header="Subtotal"></Column>
-                    <Column  header="Ações"  bodyStyle={{ textAlign: 'center' }}>
+                    <Column  header="Ações" body={actionBodyTemplate}  bodyStyle={{ textAlign: 'center' }}>
                     
                     </Column>
                   </DataTable>
