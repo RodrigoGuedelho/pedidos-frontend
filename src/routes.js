@@ -7,6 +7,7 @@ import ListMesa from "./pages/ListMesa";
 import ListProduto from "./pages/ListProduto"
 import RelatorioPedido from "./pages/RelatorioPedido";
 import CadPedido from "./pages/CadPedido";
+import CadUsuario from "./pages/CadUsuario"
 import Layout from "./components/Layout";
 
 import auth from "./auth";
@@ -46,7 +47,7 @@ export default function Routes(props) {
         <PrivateRoute exact path="/pedidos" component={ListPedido} />
         <PrivateRoute exact path="/pedidos/add" component={CadPedido} />
         <PrivateRoute exact path="/pedidos/:id" component={CadPedido} />
-        
+        <PrivateRoute exact path="/usuarios/add" component={CadUsuario} />
         <Route path="/login" component={Login} exact/>     
       </Switch>
     </BrowserRouter>
