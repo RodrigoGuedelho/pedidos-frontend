@@ -20,15 +20,19 @@ function CadMesa(props) {
   async function salvar(e) {
     try {
       e.preventDefault();
+      var retorno = null;
       if (!await validarSalvar())
         return;
       const body = {
+        id : !Util.isEmptyNumber(id) ? id : null, 
         login : login,
         nome : nome,
         senha : senha
       }
-      
-      const retorno = await usuarioService.salvar(body);
+      if (!Util.isEmptyNumber(id))
+        retorno = await usuarioService.editar(body);
+      else
+        retorno = await usuarioService.salvar(body);
       if (retorno.status >= 200 && retorno.status < 300) {
         showMessage("Operação realizada com sucesso.", "success", "Operação")
         limparCampos();
@@ -63,6 +67,17 @@ function CadMesa(props) {
   const showMessage = (mensagem, tipo, titulo) => {
     toast.current.show({severity:tipo, summary: titulo, detail:mensagem, life: 3000});
   }
+
+  useEffect(async () => {
+    if(id !== undefined){
+      const usuario = await usuarioService.getUsuario(id);
+      if(usuario) {
+        setLogin(usuario.login);
+        setNome(usuario.nome);
+      } 
+    }
+  }, []);
+
   return (
     <div className="p-margin-formularios">
       <form id="formUsuarios" className="p-fluid" >

@@ -50,6 +50,7 @@ export default function Routes(props) {
         <PrivateRoute exact path="/pedidos/:id" component={CadPedido} />
         <PrivateRoute exact path="/usuarios" component={ListUsuario} />
         <PrivateRoute exact path="/usuarios/add" component={CadUsuario} />
+        <PrivateRoute exact path="/usuarios/:id" component={CadUsuario} />
         <Route path="/login" component={Login} exact/>     
       </Switch>
     </BrowserRouter>

@@ -16,8 +16,20 @@ class UsuarioService {
     }
   }
 
+  async editar(body) {     
+    var retorno = ""; 
+    try {
+      retorno = await api.put("/api/usuarios/" + body.id, JSON.stringify(body), util.getConfigHeaderAuthorization());
+      console.log("retorno", retorno);
+      return retorno;
+    } catch (error) {
+      console.log("Error: ", error.response.data);
+      if (error.toString().includes('403'))
+        auth.logout();
+    }
+  }
+
   async pesquisar(login, nome, id, status) {
-    console.log("sds")
     var retorno = ""; 
     try {
       var uri = "/api/usuarios?status=" + status;
@@ -30,6 +42,22 @@ class UsuarioService {
       
       retorno = await api.get(uri,  util.getConfigHeaderAuthorization());
       return retorno.data;
+    } catch (error) {
+      if (error.toString().includes('403'))
+        auth.logout();
+      return [];
+    }
+  }
+
+  async getUsuario(id) {
+    var retorno = ""; 
+    try {
+      var uri = "/api/usuarios?status=ATIVO&id=" + id;
+      
+      retorno = await api.get(uri,  util.getConfigHeaderAuthorization());
+      if (retorno.data.length > 0)
+        return retorno.data[0];
+      return null;
     } catch (error) {
       if (error.toString().includes('403'))
         auth.logout();
