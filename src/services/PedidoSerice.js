@@ -18,6 +18,20 @@ class PedidoSerice  {
     }
   }
 
+  async gerarRelatorioVisualizar(id) {
+    var retorno = ""; 
+    try {
+      var uri = "/api/pedidos/relatorio/" + id;
+
+      retorno = await api.get(uri,  util.getConfigHeaderAuthorization());
+      return retorno.data;
+    } catch (error) {
+      if (error.toString().includes('403'))
+        auth.logout();
+      return [];
+    }
+  }
+
   async salvar(body) {
     var retorno = ""; 
     try {

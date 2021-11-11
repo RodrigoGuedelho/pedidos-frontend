@@ -36,11 +36,11 @@ function RelatorioPedido(props) {
         <Panel header="Relatório de Pedidos">
           <Toast ref={toast} position="top-right" />
           <div className="p-fluid p-formgrid p-grid">
-              <div className="p-field p-col-12 p-md-3">
+              <div className="p-field p-col-12 p-md-5">
                   <label htmlFor="firstname6">Data Início</label>
                   <Calendar id="icon" value={dataInicio} onChange={(e) => setDataInicio(e.value)} showIcon dateFormat="dd/mm/yy"/>
               </div>
-              <div className="p-field p-col-12 p-md-3">
+              <div className="p-field p-col-12 p-md-5">
                   <label htmlFor="firstname6">Data Fim</label>
                   <Calendar id="icon" value={dataFim} onChange={(e) => setDataFim(e.value)} showIcon dateFormat="dd/mm/yy"/>
               </div>

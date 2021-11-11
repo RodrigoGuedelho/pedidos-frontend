@@ -22,6 +22,7 @@ function ListPedido(props)  {
   const toast = useRef(null);
   const menu =useState(null);
   const [items, setItems] = useState([
+    {label: 'Visualizar', icon: 'pi pi-fw pi-print',url: ''},
     {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: ''},
     {label: 'Finalizar', icon: 'pi pi-check-circle', command : ()=> confirmDialogFinalizar()},
     {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogCancelar()}
@@ -66,6 +67,7 @@ function ListPedido(props)  {
     e.preventDefault();
     
     setItems([
+      {label: 'Visualizar', icon: 'pi pi-fw pi-print', command : ()=> gerarRelatorioVisualizar()},
       {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: getUrlEdiarPedido(rowData)},
       {label: 'Finalizar', icon: 'pi pi-check-circle', command : ()=> confirmDialogFinalizar()},
       {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogCancelar()}
@@ -126,6 +128,14 @@ function ListPedido(props)  {
     })
     
     setPedidos(pedidosAux);
+  }
+
+  async function gerarRelatorioVisualizar(e){
+    //e.preventDefault();
+    const relatorio = await pedidoService.gerarRelatorioVisualizar(pedidoExclusao.id);
+
+    let pdfWindow = window.open("")
+    pdfWindow.document.write("<iframe width='100%' height='100%' src='" + relatorio + "'></iframe>")
   }
 
   function actionBodyTemplate(rowData) {
