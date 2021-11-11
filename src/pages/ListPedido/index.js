@@ -65,15 +65,14 @@ function ListPedido(props)  {
 
   function showMenu(e,rowData) {
     e.preventDefault();
-    
+    setPedidoExlusao(rowData);
     setItems([
-      {label: 'Visualizar', icon: 'pi pi-fw pi-print', command : ()=> gerarRelatorioVisualizar()},
+      {label: 'Visualizar', icon: 'pi pi-fw pi-print', command : ()=> gerarRelatorioVisualizar(rowData)},
       {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: getUrlEdiarPedido(rowData)},
       {label: 'Finalizar', icon: 'pi pi-check-circle', command : ()=> confirmDialogFinalizar()},
       {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogCancelar()}
     ])
-    setPedidoExlusao(rowData);
-    console.log("pedido", rowData)
+  
     try {
       menu.current.toggle(e);
     } catch (error) {
@@ -130,9 +129,9 @@ function ListPedido(props)  {
     setPedidos(pedidosAux);
   }
 
-  async function gerarRelatorioVisualizar(e){
+  async function gerarRelatorioVisualizar(pedido){
     //e.preventDefault();
-    const relatorio = await pedidoService.gerarRelatorioVisualizar(pedidoExclusao.id);
+    const relatorio = await pedidoService.gerarRelatorioVisualizar(pedido.id);
 
     let pdfWindow = window.open("")
     pdfWindow.document.write("<iframe width='100%' height='100%' src='" + relatorio + "'></iframe>")
