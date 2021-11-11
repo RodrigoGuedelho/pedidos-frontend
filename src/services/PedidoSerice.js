@@ -3,11 +3,11 @@ import auth from "../auth";
 import util from "../utils/Util";
 
 class PedidoSerice  {
-  async gerarRelatorio(dataInicio, dataFim) {
+  async gerarRelatorio(dataInicio, dataFim, status) {
     var retorno = ""; 
     try {
       var uri = "/api/pedidos/relatorio?dataInicio=" + util.dateTostring(dataInicio) 
-        + "&dataFim=" + util.dateTostring(dataFim);
+        + "&dataFim=" + util.dateTostring(dataFim) + '&status=' + status;
 
       retorno = await api.get(uri,  util.getConfigHeaderAuthorization());
       return retorno.data;
