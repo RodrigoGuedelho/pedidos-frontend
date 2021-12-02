@@ -175,7 +175,7 @@ function ListPedido(props)  {
             </div>
           </div>
           
-          <DataTable value={pedidos} className="p-datatable-responsive-demo" paginator rows={8}>
+          <DataTable value={pedidos} paginator rows={8} responsiveLayout="stack" breakpoint="960px">
               <Column field="id" header="Id"></Column>
               <Column body={dataFormatadaBodyTemplate} field="dataPedido"  header="Data"></Column>
               <Column field="numeroMesa"  header="Mesa"></Column>

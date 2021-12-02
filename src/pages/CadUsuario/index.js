@@ -16,7 +16,6 @@ function CadMesa(props) {
   const {match} = props;
   const {id} = match.params;
 
-
   async function salvar(e) {
     try {
       e.preventDefault();

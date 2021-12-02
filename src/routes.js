@@ -17,7 +17,6 @@ import Login from "./pages/Login";
 import ListPedido from "./pages/ListPedido";
 import ListUsuario from "./pages/ListUsuario";
 
-
 const PrivateRoute = ({component : Component, ...rest}) => (
   <Route {...rest} 
     render={props => auth.isAuthenticated() ?
@@ -51,6 +50,7 @@ export default function Routes(props) {
         <PrivateRoute exact path="/usuarios" component={ListUsuario} />
         <PrivateRoute exact path="/usuarios/add" component={CadUsuario} />
         <PrivateRoute exact path="/usuarios/:id" component={CadUsuario} />
+        
         <Route path="/login" component={Login} exact/>     
       </Switch>
     </BrowserRouter>

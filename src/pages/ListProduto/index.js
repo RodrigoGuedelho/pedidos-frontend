@@ -131,7 +131,7 @@ function ListProduto(props) {
             </div>
           </div>
           
-          <DataTable value={produtos} className="p-datatable-responsive-demo" paginator rows={8}>
+          <DataTable value={produtos} className="p-datatable-responsive-demo" paginator rows={8} responsiveLayout="stack" breakpoint="960px">
               <Column field="descricao" header="descrição"></Column>
               <Column field="preco" body={precoBodyTemplate} header="Preço"></Column>
               <Column body={actionBodyTemplate} header="Ações"  bodyStyle={{ textAlign: 'center' }}>

@@ -126,7 +126,8 @@ function ListUsuario(props) {
             </div>
           </div>
           
-          <DataTable value={usuarios} className="p-datatable-responsive-demo" paginator rows={8}>
+          <div className="card">
+          <DataTable value={usuarios} className="p-datatable-responsive-demo" paginator rows={8} responsiveLayout="stack" >
               <Column field="id"  header="Id"></Column>
               <Column field="login" header="Login"></Column>
               <Column field="nome"  header="Nome"></Column>
@@ -135,6 +136,7 @@ function ListUsuario(props) {
                
               </Column>
           </DataTable>
+          </div>
         </Panel>  
       </form>
     </div> 

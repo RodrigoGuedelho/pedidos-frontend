@@ -127,7 +127,7 @@ function ListMesa(props)  {
             </div>
           </div>
           
-          <DataTable value={mesas} className="p-datatable-responsive-demo" paginator rows={8}>
+          <DataTable value={mesas} className="p-datatable-responsive-demo" paginator rows={8} responsiveLayout="stack" breakpoint="960px">
               <Column field="id" header="Id"></Column>
               <Column field="numero"  header="Número"></Column>
               <Column body={actionBodyTemplate} header="Ações"  bodyStyle={{ textAlign: 'center' }}>
