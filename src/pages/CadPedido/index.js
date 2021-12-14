@@ -279,15 +279,18 @@ function CadProduto(props) {
                         Add
                       </Button>
                   </div>
-                  <DataTable value={itemPedidos} className="p-datatable-responsive-demo" paginator rows={8}>
-                    <Column field="descricao"  header="Descrição"></Column>
-                    <Column field="quantidade"  header="Qtd"></Column>
-                    
-                    <Column field="subtotalItemPedido"  header="Subtotal"></Column>
-                    <Column  header="Ações" body={actionBodyTemplate}  bodyStyle={{ textAlign: 'center' }}>
-                    
-                    </Column>
-                  </DataTable>
+                  <div className="p-field p-col-12 p-md-12">
+                    <DataTable value={itemPedidos} className="p-datatable-responsive-demo" paginator rows={8}>
+                      <Column field="descricao"  header="Descrição"></Column>
+                      <Column field="quantidade"  header="Qtd"></Column>
+                      
+                      <Column field="subtotalItemPedido"  header="Subtotal"></Column>
+                      <Column  header="Ações" body={actionBodyTemplate}  bodyStyle={{ textAlign: 'center' }}>
+                      
+                      </Column>
+                    </DataTable>
+                  </div>
+                  
                 </div>
               </Panel>
 
