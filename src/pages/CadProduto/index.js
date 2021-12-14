@@ -7,7 +7,9 @@ import { Button } from 'primereact/button';
 import {Link} from 'react-router-dom';
 import { Toast } from "primereact/toast";
 import produtoService from "../../services/ProdutoService"
-//import "./style.css";
+import { Image } from 'primereact/image';
+import Util from "../../utils/Util";
+import "./style.css";
 
 
 function CadProduto(props) {
@@ -18,6 +20,7 @@ function CadProduto(props) {
   const toast = useRef(null);
   const {match} = props;
   const {id} = match.params;
+  const [imagem, setImagem] = useState(null);
 
   const showMessage = (mensagem, tipo, titulo) => {
     toast.current.show({severity:tipo, summary: titulo, detail:mensagem, life: 3000});
@@ -31,6 +34,12 @@ function CadProduto(props) {
         setDescricaoDetalhada(produto.descricaoDetalhada);
         setPreco(produto.preco);
         setIdProduto(produto.id);
+
+        const imagemProduto = await produtoService.getImagem(id);
+
+        if (!Util.isEmpty(imagemProduto)) {
+          setImagem(imagemProduto);
+        }
       } 
     }
   }, []);
@@ -82,6 +91,10 @@ function CadProduto(props) {
         <Panel header="Cadastro de Produtos">
           <Toast ref={toast} position="top-right" />
           <div className="p-fluid p-formgrid p-grid">
+          
+              <div className="p-field p-col-12 p-md-12">
+                <Image src={imagem} alt="Image" preview  />
+              </div>
               <div className="p-field p-col-12 p-md-6">
                   <label htmlFor="firstname6">Descrição</label>
                   <InputText id="firstname6" type="text" value={descricao} onChange={(e) => setDescricao(e.target.value)} />

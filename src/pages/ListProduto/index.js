@@ -9,7 +9,9 @@ import produtoService from "../../services/ProdutoService";
 import { Menu } from 'primereact/menu';
 import { confirmDialog } from 'primereact/confirmdialog';
 import { Dropdown } from 'primereact/dropdown';
-//import "./style.css";
+import { Dialog } from 'primereact/dialog';
+import { FileUpload } from 'primereact/fileupload';
+
 
 
 function ListProduto(props) {
@@ -22,9 +24,13 @@ function ListProduto(props) {
   const [status, setStatus] = useState("ATIVO");
   const statusFiltro = ["ATIVO", "CANCELADO"];
 
+  const [disableDialogUpload, setDisableDialogUpload] = useState(false);
+  const [fileImg, setFileImg] = useState();
+
   const [items, setItems] = useState([
     {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: ''},
-    {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()}
+    {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()},
+    {label: 'Upload de imagem', icon: 'pi pi-fw pi-trash', command : ()=> setDisableDialogUpload(true)}
   ]);
 
   const showMessage = (mensagem, tipo = "success", titulo = "Operação") => {
@@ -45,7 +51,8 @@ function ListProduto(props) {
     
     setItems([
       {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: getUrlEdiarProduto(rowData)},
-      {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()}
+      {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()},
+      {label: 'Upload de imagem', icon: 'pi pi-fw pi-upload', command : ()=> setDisableDialogUpload(true)}
     ])
     setProdutoExlusao(rowData);
     try {
@@ -66,6 +73,37 @@ function ListProduto(props) {
             <Menu id="menuAcoes" model={items} popup ref={menu} id="popup_menu" />
             <Button icon="pi pi-ellipsis-v" onClick={(e)=> showMenu(e, rowData)} aria-controls="popup_menu" aria-haspopup  className="p-button-rounded" />
         </React.Fragment>
+    );
+  }
+  
+  async function changeUpload(e) {
+    var retorno = null;
+    try {
+      retorno = await produtoService.uploadImgagem(e.target.files[0], produtoExclusao.id);
+      console.log(retorno)
+      if (retorno === 204) {
+        showMessage("Upload realizado ccom sucesso.");
+      } else {
+        showMessage("Erro ao tenta fazer upload.", "error");
+      }
+        
+    } catch (error) {
+      showMessage("Erro ao tenta fazer upload.");
+    }
+    
+    console.log("teste", e.target.files[0]);
+    
+  }
+  function DialogUploadImagem(rowData) {
+    
+    return (
+      <Dialog header="Upload de Imagem" visible={disableDialogUpload} style={{ width: '50vw' }}   onHide={() => setDisableDialogUpload(false)}>
+        <form action="">
+          <div>  
+            <input  type="file" onChange={(e)=> {changeUpload(e)}} />
+          </div>
+        </form>
+      </Dialog>
     );
   }
 
@@ -130,7 +168,7 @@ function ListProduto(props) {
               <Button icon="pi pi-search" onClick={pesquisar}/> 
             </div>
           </div>
-          
+          <DialogUploadImagem />
           <DataTable value={produtos} className="p-datatable-responsive-demo" paginator rows={8} responsiveLayout="stack" breakpoint="960px">
               <Column field="descricao" header="descrição"></Column>
               <Column field="preco" body={precoBodyTemplate} header="Preço"></Column>
