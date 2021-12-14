@@ -29,8 +29,8 @@ function ListProduto(props) {
 
   const [items, setItems] = useState([
     {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: ''},
-    {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()},
-    {label: 'Upload de imagem', icon: 'pi pi-fw pi-trash', command : ()=> setDisableDialogUpload(true)}
+    {label: 'Upload de imagem', icon: 'pi pi-fw pi-trash', command : ()=> setDisableDialogUpload(true)},
+    {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()}
   ]);
 
   const showMessage = (mensagem, tipo = "success", titulo = "Operação") => {
@@ -51,8 +51,8 @@ function ListProduto(props) {
     
     setItems([
       {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: getUrlEdiarProduto(rowData)},
-      {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()},
-      {label: 'Upload de imagem', icon: 'pi pi-fw pi-upload', command : ()=> setDisableDialogUpload(true)}
+      {label: 'Upload de imagem', icon: 'pi pi-fw pi-upload', command : ()=> setDisableDialogUpload(true)},
+      {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()}
     ])
     setProdutoExlusao(rowData);
     try {
