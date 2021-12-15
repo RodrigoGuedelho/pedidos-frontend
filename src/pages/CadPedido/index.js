@@ -18,7 +18,7 @@ import util from "../../utils/Util";
 
 function CadProduto(props) {
   const [mesasAbertas, setMesasAbertas] = useState();
-  const [mesa, setMesa] = useState();
+  const [mesa, setMesa] = useState(null);
   const [observacao, setObservacao] = useState('');
   const [itemPedidos, setItemPedidos] =  useState([]);
   const [idProdutoItemPedido, setIdProdutoItemPedido] = useState();
@@ -168,7 +168,10 @@ function CadProduto(props) {
   }
 
   function validarSalvar() {
-    if (util.isEmptyNumber(mesa.id)) {
+    if (mesa == null) {
+      showMessage("Informe o número da mesa.", "error", "Operação");
+      return false; 
+    } else if (util.isEmptyNumber(mesa.id)) {
       showMessage("Informe o número da mesa.", "error", "Operação");
       return false; 
     } else if (itemPedidos.length == 0) {
