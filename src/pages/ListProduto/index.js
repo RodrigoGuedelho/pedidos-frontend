@@ -10,9 +10,6 @@ import { Menu } from 'primereact/menu';
 import { confirmDialog } from 'primereact/confirmdialog';
 import { Dropdown } from 'primereact/dropdown';
 import { Dialog } from 'primereact/dialog';
-import { FileUpload } from 'primereact/fileupload';
-
-
 
 function ListProduto(props) {
   const [produtos, setProdutos] = useState([]);
@@ -29,7 +26,7 @@ function ListProduto(props) {
 
   const [items, setItems] = useState([
     {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: ''},
-    {label: 'Upload de imagem', icon: 'pi pi-fw pi-trash', command : ()=> setDisableDialogUpload(true)},
+    {label: 'Upload de imagem', icon: 'pi pi-fw pi-upload', command : ()=> setDisableDialogUpload(true)},
     {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()}
   ]);
 

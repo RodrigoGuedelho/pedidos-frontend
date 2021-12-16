@@ -9,6 +9,7 @@ import {Button} from "primereact/button"
 import { Menu } from 'primereact/menu';
 import { confirmDialog } from 'primereact/confirmdialog';
 import { Dropdown } from 'primereact/dropdown';
+import { Dialog } from 'primereact/dialog';
 
 import usuarioService from '../../services/UsuarioService';
 
@@ -18,11 +19,15 @@ function ListUsuario(props) {
   const [status, setStatus] = useState("ATIVO");
   const [usuarios, setUsuarios] = useState([]);
   const statusFiltro = ["ATIVO", "CANCELADO"];
+
+  const [disableDialogUpload, setDisableDialogUpload] = useState(false);
+  const [fileImg, setFileImg] = useState();
   
   const toast = useRef(null);
   const menu =useState(null);
   const [items, setItems] = useState([
     {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: ''},
+    {label: 'Upload de imagem', icon: 'pi pi-fw pi-upload', command : ()=> setDisableDialogUpload(true)},
     {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()}
   ]);
   const [usuarioExclusao, setUsuarioExlusao] = useState(null);
@@ -91,6 +96,7 @@ function ListUsuario(props) {
     
     setItems([
       {label: 'Editar', icon: 'pi pi-fw pi-pencil',url: getUrlEdiarUsuario(rowData)},
+      {label: 'Upload de imagem', icon: 'pi pi-fw pi-upload', command : ()=> setDisableDialogUpload(true)},
       {label: 'Cancelar', icon: 'pi pi-fw pi-trash', command : ()=> confirmDialogDesativacao()}
     ])
     setUsuarioExlusao(rowData);
@@ -104,6 +110,37 @@ function ListUsuario(props) {
 
   function getUrlEdiarUsuario(usuario) {
     return "/usuarios/" + usuario.id
+  }
+
+  async function changeUpload(e) {
+    var retorno = null;
+    try {
+      retorno = await usuarioService.uploadImgagem(e.target.files[0], usuarioExclusao.id);
+      console.log(retorno)
+      if (retorno === 204) {
+        showMessage("Upload realizado ccom sucesso.");
+      } else {
+        showMessage("Erro ao tenta fazer upload.", "error");
+      }
+        
+    } catch (error) {
+      showMessage("Erro ao tenta fazer upload.");
+    }
+    
+    console.log("teste", e.target.files[0]);
+    
+  }
+  function DialogUploadImagem(rowData) {
+    
+    return (
+      <Dialog header="Upload de Imagem" visible={disableDialogUpload} style={{ width: '50vw' }}   onHide={() => setDisableDialogUpload(false)}>
+        <form action="">
+          <div>  
+            <input  type="file" onChange={(e)=> {changeUpload(e)}} />
+          </div>
+        </form>
+      </Dialog>
+    );
   }
 
   return (
@@ -127,6 +164,7 @@ function ListUsuario(props) {
           </div>
           
           <div className="card">
+          <DialogUploadImagem />
           <DataTable value={usuarios} className="p-datatable-responsive-demo" paginator rows={8} responsiveLayout="stack" >
               <Column field="id"  header="Id"></Column>
               <Column field="login" header="Login"></Column>

@@ -77,6 +77,24 @@ class UsuarioService {
         auth.logout();
     }
   }
+
+  async uploadImgagem(imagem, id) {
+
+    let formData = new FormData();
+    formData.append("file", imagem);
+    formData.append("name", "file");
+    var retorno = null;
+    try {
+      retorno = await api.put("/api/usuarios/" + id + "/upload", formData, util.getConfigHeaderAuthorization());
+      console.log("sd", retorno)
+      return retorno.status;
+    } catch (error) {
+      console.log("error: ", error)
+      if (error.toString().includes('403'))
+        auth.logout();
+      return null;
+    }
+  }
 }
 
 export default new UsuarioService();
