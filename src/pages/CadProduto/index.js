@@ -9,8 +9,6 @@ import { Toast } from "primereact/toast";
 import produtoService from "../../services/ProdutoService"
 import { Image } from 'primereact/image';
 import Util from "../../utils/Util";
-import "./style.css";
-
 
 function CadProduto(props) {
   const [descricao, setDescricao] = useState("");
@@ -92,7 +90,7 @@ function CadProduto(props) {
           <Toast ref={toast} position="top-right" />
           <div className="p-fluid p-formgrid p-grid">
           
-              <div className="p-field p-col-12 p-md-12">
+              <div className={imagem != null ? 'p-field p-col-12 p-md-12' : 'display-none'}>
                 <Image src={imagem} alt="Image" preview  />
               </div>
               <div className="p-field p-col-12 p-md-6">

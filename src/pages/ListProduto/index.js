@@ -159,7 +159,7 @@ function ListProduto(props) {
 
             <div className="p-field p-col-12 p-md-5">     
                 <InputText id="descricaoDetalhada" type="text" value={descricaoDetalhada} 
-                  onChange={(e) => setDescricaoDetalhada(e.target.value)} placeholder="Descrição"  />
+                  onChange={(e) => setDescricaoDetalhada(e.target.value)} placeholder="Descrição Detalhada"  />
             </div>
             <div className="p-field p-col-12 p-md-2">
                 <Dropdown value={status} options={statusFiltro} onChange={(e) => setStatus(e.value)} placeholder="Status"/>
