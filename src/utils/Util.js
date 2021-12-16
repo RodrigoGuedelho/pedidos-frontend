@@ -2,7 +2,7 @@ import auth from "../auth";
 
 class Util {
   isEmpty(texto) {
-    return texto.trim() === '' ||  texto === undefined || texto === null;
+    return texto === undefined || texto === null || texto.trim() === '';
   }
   isEmptyNumber(numero) {
     return numero === undefined || numero === null

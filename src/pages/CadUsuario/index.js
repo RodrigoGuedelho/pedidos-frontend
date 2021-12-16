@@ -5,6 +5,7 @@ import {Password} from 'primereact/password';
 import { Button } from 'primereact/button';
 import {Link} from 'react-router-dom';
 import { Toast } from "primereact/toast";
+import { Image } from 'primereact/image';
 import Util from "../../utils/Util";
 import usuarioService from "../../services/UsuarioService";
 
@@ -15,6 +16,7 @@ function CadMesa(props) {
   const toast = useRef(null);
   const {match} = props;
   const {id} = match.params;
+  const [imagem, setImagem] = useState(null);
 
   async function salvar(e) {
     try {
@@ -73,6 +75,12 @@ function CadMesa(props) {
       if(usuario) {
         setLogin(usuario.login);
         setNome(usuario.nome);
+
+        const imagemUsuario = await usuarioService.getImagem(id);
+
+        if (!Util.isEmpty(imagemUsuario)) {
+          setImagem(imagemUsuario);
+        }
       } 
     }
   }, []);
@@ -83,6 +91,9 @@ function CadMesa(props) {
         <Panel header="Cadastro de Usuários">
           <Toast ref={toast} position="top-right" />
           <div className="p-fluid p-formgrid p-grid">
+              <div className={imagem != null ? 'p-field p-col-12 p-md-12' : 'display-none'}>
+                <Image src={imagem} alt="Image" preview  />
+              </div>
               <div className="p-field p-col-12 p-md-3">
                   <label htmlFor="firstnameLogin">Login</label>
                   <InputText id="inputLogin" type="text" value={login} onChange={(e) => setLogin(e.target.value)} />

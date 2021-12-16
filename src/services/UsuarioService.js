@@ -95,6 +95,22 @@ class UsuarioService {
       return null;
     }
   }
+
+  async getImagem(id) {
+    var retorno = ""; 
+    try {
+      var uri = "/api/usuarios/upload/" + id;  
+      retorno = await api.get(uri,  util.getConfigHeaderAuthorization());
+      if (retorno.data !== undefined && retorno.data !== null)
+        return retorno.data;
+      else 
+        return null;
+    } catch (error) {
+      if (error.toString().includes('403'))
+        auth.logout();
+      return null;
+    }
+  }
 }
 
 export default new UsuarioService();
