@@ -20,7 +20,6 @@ class UsuarioService {
     var retorno = ""; 
     try {
       retorno = await api.put("/api/usuarios/" + body.id, JSON.stringify(body), util.getConfigHeaderAuthorization());
-      console.log("retorno", retorno);
       return retorno;
     } catch (error) {
       console.log("Error: ", error.response.data);

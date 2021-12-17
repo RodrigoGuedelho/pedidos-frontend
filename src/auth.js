@@ -1,4 +1,5 @@
 import api from "./services/api";
+import usuarioService from "./services/UsuarioService";
 
 class Auth {
     isAuthenticated() {
@@ -14,9 +15,11 @@ class Auth {
             senha : password
           };
           const retorno = await api.post("/login", JSON.stringify(body));
-
-          console.log("Retorno", retorno.data);
           localStorage.setItem("token", retorno.data.Authorization);
+          
+          const imagemUsuario = await usuarioService.getImagemUsuarioLogado();
+          localStorage.setItem("imagemUsuarioLogado", imagemUsuario);
+
           return true;
       } catch (error) {
         localStorage.removeItem("token");
@@ -27,11 +30,19 @@ class Auth {
 
     logout() {
       localStorage.removeItem("token");
+      localStorage.removeItem("imagemUsuarioLogado");
       window.location.href ='/';
     }
 
     getToken() {
       return localStorage.getItem("token");
+    }
+
+    getImagemUsuarioLogadoCache() {
+      return localStorage.getItem("imagemUsuarioLogado");
+    }
+    setImagemUsuarioLogadoCache(imagem) {
+      localStorage.setItem("imagemUsuarioLogado", imagem);
     }
 
     getNameUser() {

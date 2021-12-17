@@ -129,7 +129,8 @@ function Layout() {
       const retorno = await auth.logout();
   }
   useEffect(async (e) => {
-    setImagemUsuario(await usuarioService.getImagemUsuarioLogado());
+    //setImagemUsuario(await usuarioService.getImagemUsuarioLogado());
+    setImagemUsuario(auth.getImagemUsuarioLogadoCache());
   }, []);
   return (
     <div>

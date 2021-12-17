@@ -12,6 +12,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { Dialog } from 'primereact/dialog';
 
 import usuarioService from '../../services/UsuarioService';
+import auth from "../../auth";
 
 function ListUsuario(props) {
   const [login, setLogin] = useState('');
@@ -116,8 +117,9 @@ function ListUsuario(props) {
     var retorno = null;
     try {
       retorno = await usuarioService.uploadImgagem(e.target.files[0], usuarioExclusao.id);
-      console.log(retorno)
+      
       if (retorno === 204) {
+        atualizaImgagemUsuarioLogado();
         showMessage("Upload realizado ccom sucesso.");
       } else {
         showMessage("Erro ao tenta fazer upload.", "error");
@@ -129,6 +131,13 @@ function ListUsuario(props) {
     
     console.log("teste", e.target.files[0]);
     
+  }
+
+  async function atualizaImgagemUsuarioLogado() {
+    //Deve atualizar a imgagem do usuário logado
+    if(usuarioExclusao.login === auth.getNameUser()) {
+      auth.setImagemUsuarioLogadoCache(await usuarioService.getImagemUsuarioLogado());
+    }
   }
   function DialogUploadImagem(rowData) {
     
