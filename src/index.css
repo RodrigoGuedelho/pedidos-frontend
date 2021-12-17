@@ -14,10 +14,13 @@ body {
   background: #f94343;
   padding: 0.1rem;
 }
+
 .img-toolbar img{
-  height: 42px;
+  height: 45px;
+  width: 45px;
   border-radius: 50%;
   margin-right: 10px;
+  
 }
 .p-margin-formularios {
   margin : 5% 5% 5% 5%;
