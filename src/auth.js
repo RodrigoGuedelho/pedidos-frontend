@@ -33,6 +33,20 @@ class Auth {
     getToken() {
       return localStorage.getItem("token");
     }
+
+    getNameUser() {
+      var token = this.getToken();
+      token = token.replace("Bearer ", "");
+      var partesToken = [] 
+      partesToken = token.split(".");
+
+      var payloadToken = Buffer.from(partesToken[1], 'base64').toString('ascii');
+      payloadToken = JSON.parse(payloadToken)
+      console.log(">>>> " + payloadToken.sub)
+      return payloadToken.sub;
+    }
+
+
 }
 
 export default new Auth(); 

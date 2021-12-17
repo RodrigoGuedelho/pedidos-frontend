@@ -63,6 +63,17 @@ class UsuarioService {
         auth.logout();
       return [];
     }
+  }  
+
+  async getImagemUsuarioLogado() {
+    var imagem = null; 
+    try {
+      return await this.getImagemByLogin(auth.getNameUser());
+    } catch (error) {
+      if (error.toString().includes('403'))
+        auth.logout();
+      return [];
+    }
   }
 
   async cancelar(id) {     
@@ -105,6 +116,21 @@ class UsuarioService {
         return retorno.data;
       else 
         return null;
+    } catch (error) {
+      if (error.toString().includes('403'))
+        auth.logout();
+      return null;
+    }
+  }
+
+  async getImagemByLogin(login) {
+    var retorno = ""; 
+    try {
+      var uri = "/api/usuarios/upload/login/" + login;  
+      retorno = await api.get(uri,  util.getConfigHeaderAuthorization());
+      if (retorno.data !== undefined && retorno.data !== null)
+        return retorno.data; 
+      return null;
     } catch (error) {
       if (error.toString().includes('403'))
         auth.logout();

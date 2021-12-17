@@ -7,8 +7,10 @@ import { PanelMenu } from 'primereact/panelmenu';
 import { Toolbar } from 'primereact/toolbar';
 import { ReactComponent as Logo } from '../../assets/logo-branca.svg' ; 
 import {Link} from 'react-router-dom';
+import { Image } from 'primereact/image';
 import "./style.css";
 
+import usuarioService from "../../services/UsuarioService";
 
 function Layout() {
   const menu = useRef(null);
@@ -106,30 +108,39 @@ function Layout() {
     }    
   ];
 
+  const [imagemUsuario, setImagemUsuario] = useState('');
+
   const leftContents = (
     <React.Fragment>
      <Button id="button-logo"  onClick={() => setVisibleSidebar(true)}><Logo /></Button>   
-      <Link className="link-menu" to="/">Pedido Legal</Link>
-       
-        
+      <Link className="link-menu" to="/">Pedido Legal</Link> 
     </React.Fragment>
-);
+  );
+
+  const rightContents = (
+    <React.Fragment>
+      <Image src={imagemUsuario} className="img-toolbar" />      
+    </React.Fragment>
+  );
+  
   const [visibleSidebar, setVisibleSidebar] = useState(true);
   async function logout(e) {
       e.preventDefault();
       const retorno = await auth.logout();
   }
-  
-    return (
-      <div>
-        <Sidebar visible={visibleSidebar} onHide={() => setVisibleSidebar(false)}>
-          <h3>Telas</h3>
-          <div className="card"><PanelMenu model={items} style={{ width: '100%' }}/></div>
-        </Sidebar>
-        <Toolbar  left={leftContents}/>
-      </div>
-      
-    );
+  useEffect(async (e) => {
+    setImagemUsuario(await usuarioService.getImagemUsuarioLogado());
+  }, []);
+  return (
+    <div>
+      <Sidebar visible={visibleSidebar} onHide={() => setVisibleSidebar(false)}>
+        <h3>Telas</h3>
+        <div className="card"><PanelMenu model={items} style={{ width: '100%' }}/></div>
+      </Sidebar>
+      <Toolbar  left={leftContents} right={rightContents}/>
+    </div>
+    
+  );
 }
 
 export default Layout;
