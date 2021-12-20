@@ -119,10 +119,10 @@ function Layout() {
 
   const rightContents = (
     <React.Fragment>
-      <Image src={imagemUsuario} className={imagemUsuario !== 'null' ? 'img-toolbar' : 'display-none'} />      
+      <Image src={imagemUsuario} className={imagemUsuario !== '' ? 'img-toolbar' : 'display-none'} />      
     </React.Fragment>
   );
-  console.log(">>> "  + imagemUsuario + '' +  (imagemUsuario === null))
+  console.log(">>> "  + imagemUsuario )
   const [visibleSidebar, setVisibleSidebar] = useState(true);
   async function logout(e) {
       e.preventDefault();
