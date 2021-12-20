@@ -108,7 +108,7 @@ function Layout() {
     }    
   ];
 
-  const [imagemUsuario, setImagemUsuario] = useState('');
+  const [imagemUsuario, setImagemUsuario] = useState(null);
 
   const leftContents = (
     <React.Fragment>
@@ -119,10 +119,10 @@ function Layout() {
 
   const rightContents = (
     <React.Fragment>
-      <Image src={imagemUsuario} className="img-toolbar" />      
+      <Image src={imagemUsuario} className={imagemUsuario !== 'null' ? 'img-toolbar' : 'display-none'} />      
     </React.Fragment>
   );
-  
+  console.log(">>> "  + imagemUsuario + '' +  (imagemUsuario === null))
   const [visibleSidebar, setVisibleSidebar] = useState(true);
   async function logout(e) {
       e.preventDefault();
